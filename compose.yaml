@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # 1. Baza danych (MySQL)
+  db:
+    image: mysql:8.0
+    container_name: filmrev-db
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password --lower_case_table_names=1 --sql-mode="STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: FilmRev
+    ports:
+      - "3306:3306"
+    volumes:
+      # Ścieżka pasuje do Twojego folderu "db" na screenie
+      - ./db/filmrev.sql:/docker-entrypoint-initdb.d/init.sql
+      - db-data:/var/lib/mysql
+
+  # 2. Twój Backend (Folder "backend")
+  backend:
+    build: ./backend      # <--- ZMIANA: wskazujemy folder "backend"
+    container_name: filmrev-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=rootpassword
+      - DB_NAME=FilmRev
+      - PORT=3001
+    depends_on:
+      - db
+
+  # 3. Twój Frontend (Folder "frontend")
+  frontend:
+    build: ./frontend     # <--- ZMIANA: wskazujemy folder "frontend"
+    container_name: filmrev-frontend
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+
+volumes:
+  db-data:

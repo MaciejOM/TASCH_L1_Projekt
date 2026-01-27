@@ -1,0 +1,631 @@
+body {
+
+    background-color: rgb(8, 12, 15);
+
+}
+
+.App {
+
+    display:grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: minmax(0, 1fr);
+    min-height:100dvh;
+
+}
+
+/* NAGŁÓWEK */
+
+.App-header {
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    
+    height: 10vh;
+    padding: 0 5em;
+
+    background-color: rgb(15, 22, 29);
+    color:white;
+
+}
+
+.App-header .Tytul {
+
+    font-family:'Franklin Gothic Medium'
+
+}
+
+
+.Logo {
+
+    width: 3em;
+    margin-right: 1em;
+
+}
+
+
+.Stopa {
+
+    height: 4vh;
+    padding: 2em 0;
+    background-color: rgb(15, 22, 29);
+    color: white;
+    text-align: center;
+
+}
+
+/* NAWIGACJA MIĘDZY STRONAMI */
+
+.Strony {
+
+    text-align: center;
+    color: white;
+
+}
+
+.Strony button {
+
+    margin: 1em;
+    color:white;
+    background-color: rgb(156, 0, 96);
+    border: none;
+    border-radius: 10px;
+    padding: 1em 1.2em;
+    transition: 0.3s;
+    cursor: pointer;
+
+}
+
+.Strony button:enabled:hover {
+
+    background-color: rgb(105, 0, 65);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+
+}
+
+.Strony button:disabled {
+
+    cursor: context-menu;
+    background-color: rgb(46, 0, 28);
+    color:gray;
+
+}
+
+/* LISTA FILMÓW */
+
+#lista {
+
+    display: grid;
+    grid-template-columns: repeat(6, 1fr); 
+    width: 100%;
+
+}
+
+.NoFilm {
+
+    min-width: 100dvh;
+    margin-left: 5em;
+    color: white;
+    font-size: 2em;
+    font-weight: bold;
+
+}
+
+.film {
+
+    position: relative;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+
+    border-radius: 8px;
+    margin: 1em;
+
+    color: white;
+    
+    transition: 0.2s; 
+
+}
+
+.film:hover {
+
+     box-shadow: 0 0 40px 0 rgb(72, 122, 122, 0.4);
+    
+}
+
+.plakat {
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    z-index: 1;
+
+}
+
+
+.Szczegoly {
+    
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; 
+    text-align: center;
+
+    width: 100%;
+    height: 100%;
+    
+    cursor: pointer;
+    z-index: 1;
+
+    background: linear-gradient(to top, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 100%);
+    opacity: 0;
+    transition: 0.3s;
+
+}
+
+.Szczegoly:hover {
+
+    opacity: 1;
+
+}
+
+.Szczegoly .tytul {
+
+    font-size: 2.2em;
+    font-weight: bold;
+
+}
+
+.Szczegoly .info {
+
+    font-size: 0.8em;
+
+}
+
+.Szczegoly .srednia_re {
+
+    font-size: 1.2em;
+    font-weight: bold;
+
+}
+
+/* OKNO POP-UP */
+
+.pop-up, .pop-up-log {
+
+    background-color: rgb(0, 0, 0, 0.3);
+    color:white;
+    backdrop-filter: blur(10px);
+    z-index: 2; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+
+}
+
+.pop-up-bg, .pop-up-log-bg {
+
+    position:fixed;
+    width:100%;
+    height:100%;
+
+}
+
+/* SZCZEGÓŁY FILMU */
+
+.SzczegolyFilmu img {
+
+    float: left;
+    margin-right: 1em;
+    width: 40%;
+
+    -webkit-mask-image:-webkit-gradient(linear, left bottom, right bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))
+
+}
+
+.SzczegolyFilmu .OpisFilmu {
+
+    text-align: justify;
+    padding-right: 1em;
+    font-size: 1.2em;
+
+}
+
+/* LISTA RECENZJI */
+
+.NoRecenzje {
+
+    text-align: center;
+    margin: 0;
+
+}
+
+.lista-recenzji {
+
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+    
+    width: 80%;
+    height: 80%;
+    background-color: rgb(13, 19, 24);
+    z-index: 2;
+    overflow-y: scroll;
+    
+}
+
+.lista-recenzji::-webkit-scrollbar {
+
+    width: 0.7em;
+
+}
+
+.lista-recenzji::-webkit-scrollbar-track {
+
+    border-radius: 10px;
+    background-color: rgb(19, 27, 32);
+
+}
+ 
+.lista-recenzji::-webkit-scrollbar-thumb {
+
+    background: rgb(83, 111, 135);
+    border-radius: 10px;
+  
+}
+
+.lista-recenzji::-webkit-scrollbar-thumb:hover {
+
+    background: rgb(67, 88, 107); 
+    transition: 0.3s;
+
+}
+
+.lista-recenzji h3 {
+    margin-left: 1em;
+}
+
+
+.header, .header-log {
+
+    margin: 0;
+    padding: 0.5em 0;
+    width: 100%;
+
+    background-color: rgb(15, 22, 29);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    color:white;
+    font-size: 2em;
+
+}
+
+.hidden {
+
+    display: none;
+
+}
+
+/* RECENZJA */
+
+.recenzja {
+
+    background-color: rgb(38, 50, 61);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    margin: 1em 2em;
+    padding: 1em;
+    border-radius: 10px;
+
+}
+
+.recenzja .username {
+
+    font-weight: bold;
+    font-size: 1.5em;
+
+}
+
+.ocena .gwiazdki, h3 .gwiazdki {
+
+    color: #ffc107;
+    font-size: 1.5em;
+
+}
+
+.recenzja .trescRec {
+
+    font-size: 1.5dvh;
+
+}
+
+
+
+/* TWORZENIE RECENZJI */
+
+.stworzRecenzje {
+
+    display: grid;
+    grid-template-columns: 80% auto;
+    margin: 1em 2em;
+    padding: 1em;
+    border-radius: 15px;
+    background-color: rgb(38, 50, 61);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+
+}
+
+#recenzja {
+
+    border-radius: 15px;
+    padding: 0.5em;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+    resize: none;
+
+}
+
+.OcenaFilmu p {
+    
+    margin:0;
+
+}
+
+.gwiazdki-ocena {
+
+    display: inline-flex;
+    flex-direction: row-reverse;
+
+}
+
+.gwiazdki-ocena > label {
+
+    font-size: 4dvh;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s;
+
+}
+
+.gwiazdki-ocena > label:hover,
+.gwiazdki-ocena > label:hover ~ label {
+
+    color: #ffe676; 
+
+}
+
+.gwiazdki-ocena > input:checked ~ label {
+
+    color: #ffc107;
+
+}
+
+.gwiazdki-ocena > input {
+
+    display: none;
+
+}
+
+.OcenaFilmu {
+
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+
+}
+
+.Guzik input, .Guzik button {
+
+    color: white;
+    background-color: rgb(156, 0, 96);
+    border: none;
+    border-radius: 6px;
+    width: 15em;
+    padding: 1em 1.2em;
+    cursor: pointer;
+    transition:0.2s;
+
+}
+
+.Guzik input:hover, .Guzik button:hover {
+
+    background-color: rgb(105, 0, 65);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+
+}
+
+
+
+/* PRZYCISKI EDYCJI I USUN*/
+
+.przyciski {
+
+    display: flex;
+    float: right;
+    gap: 10px;
+
+}
+
+.przyciski button {
+
+    font-weight: bold;
+    color: white;
+    background-color: rgb(156, 0, 96);
+    border: none;
+    border-radius: 6px;
+    width: 15em;
+    padding: 1em 1.2em;
+    cursor: pointer;
+    transition:0.2s;
+
+}
+
+.przyciski button:hover {
+
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    background-color: rgb(105, 0, 65);
+
+}
+
+#UsunRec:hover {
+
+    background-color: rgb(230, 0, 38);
+
+}
+
+
+/* LOGOWANIE I REJESTRACJA*/
+
+.Log-Menu {
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2em;
+    width: 40%;
+    z-index: 2;
+    border-radius: 12px;
+
+}
+
+.Log-Menu h3 {
+
+    font-size: 2em;
+    margin: 0.5em 0;
+
+}
+
+.LogForm {
+
+    align-self: center;
+
+}
+
+.LogForm, .RegForm {
+
+    background-color: rgb(15, 22, 29);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 0 2em rgba(255, 255, 255, 0.4);
+    height: 35em;
+    
+}
+
+.Logowanie, .Rejestracja {
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: white;
+
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"],
+input[type="button"] {
+
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+
+}
+
+input[type="button"] {
+
+    background-color: rgb(156, 0, 96);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+}
+
+input[type="button"]:hover {
+
+    background-color: rgb(105, 0, 65);
+
+}
+
+.Logowanie, .Rejestracja {
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: white;
+
+}
+
+.Niezalogowany {
+
+    position: absolute;
+    right: 5em;
+    background-color: rgb(156, 0, 96);
+    text-align: center;
+    width: 12em;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+
+}
+
+.Niezalogowany:hover {
+
+    background-color: rgb(105, 0, 65);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+
+}
+
+.Zalogowany {
+
+    position: absolute;
+    right: 0;
+    font-size: 18px;
+    text-align: center;
+    margin-right: 5em;
+
+}
+
+.Zalogowany p {
+
+    margin:0.25em;
+    font-size:1rem;
+
+}
+
+.Zalogowany input[type=button] {
+
+    color: white;
+    font-weight: bold;
+    background-color: rgb(156, 0, 96);
+    border-radius: 15px;
+    padding:0.5em 1.5em;
+    transition:0.3s;
+
+}
+
+.Zalogowany input[type=button]:hover {
+
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+    background-color: rgb(230, 0, 38);
+
+}
+
+.LoginReq {
+
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+
+}
+
+
+
+
+

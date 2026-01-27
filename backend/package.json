@@ -1,0 +1,30 @@
+{
+  "name": "movie-site-rest-api",
+  "version": "1.0.0",
+  "description": "Strona w architekturze REST do przeglądania i recenzowania filmów.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "REST_Projekt_Maciej_M"
+  },
+  "keywords": [
+    "Film"
+  ],
+  "author": "Maciej Motyka",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mysql": "^2.18.1",
+    "ncrypt-js": "^2.1.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  }
+}
