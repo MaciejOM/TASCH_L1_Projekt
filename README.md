@@ -15,7 +15,7 @@ Aplikacja webowa umożliwiająca przeglądanie bazy filmów, rejestrację użytk
     * Zewnętrzne API - The Movie Database (TMDB) i Google reCAPTCHA
 ## Instrukcja uruchomienia
 ### Wymagania:
-* Docker oraz Docker Compose (lub Docker Desktop).
+* Docker
 ### Uruchomienie:
 1. Otwórz główny folder projektu za pomocą terminala.
 2. Uruchom aplikację poleceniem:
