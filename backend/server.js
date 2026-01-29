@@ -13,14 +13,12 @@ server.use(cors());
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 
-// --- POPRAWKA: Konfiguracja bazy jest teraz globalna ---
 const dbConfig = {
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || '',
     database: process.env.DB_NAME || 'FilmRev'
 };
-// -------------------------------------------------------
 
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
@@ -147,7 +145,6 @@ server.post('/rejestracja', async (req, res) => {
     
     try {
         const secret = '6Lca9FYrAAAAAFPjANNTBlMBYUOEUrWHNhz5l3u0';
-        // Uwaga: W Node 18 fetch jest natywny, w starszych wymaga node-fetch
         const captchaRes = await fetch(`https://www.google.com/recaptcha/api/siteverify`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -172,8 +169,6 @@ server.post('/rejestracja', async (req, res) => {
                 [login, mail, hash],
                 (err) => {
                     connection.end();
-                    if (err) return res.status(500).json({ error: "Błąd rejestracji użytkownika" });
-                    // W Dockerze przekierowanie na localhost:3000 (frontend) zadziała tylko w przeglądarce użytkownika
                     res.redirect("http://localhost:3000");
                 }
             );
@@ -196,7 +191,6 @@ const options_gatunki = {
     }
 };
 
-// Opóźniamy start importu o 15 sekund, żeby baza zdążyła wstać w Dockerze
 setTimeout(() => {
     console.log("Rozpoczynam pobieranie danych z TMDB...");
     
@@ -204,7 +198,6 @@ setTimeout(() => {
         .then(res => res.json())
         .then(json => {
             const connection = mysql.createConnection(dbConfig);
-            // Obsługa błędu połączenia, żeby nie wywaliło serwera
             connection.on('error', err => {
                 console.error("Błąd połączenia z DB przy imporcie gatunków (MySQL może jeszcze wstawać):", err.code);
             });
@@ -288,7 +281,7 @@ setTimeout(() => {
         })
         .catch(err => console.error("Błąd podczas pobierania filmów:", err));
 
-}, 25000);
+}, 25000); 
 
 
 // POBIERANIE FILMÓW
@@ -302,9 +295,7 @@ server.get('/filmy', (req, res) => {
 
     connection.query("SELECT COUNT(*) AS total FROM widok_filmy", (err, countResult) => {
         if (err) {
-            // --- DODANO LOGOWANIE BŁĘDU ---
             console.error("BŁĄD SQL (COUNT):", err); 
-            // -----------------------------
             connection.end();
             return res.status(500).json({ error: "Błąd zliczania filmów" });
         }
@@ -318,7 +309,6 @@ server.get('/filmy', (req, res) => {
             (err, rows) => {
                 connection.end();
                 if (err) {
-                    // --- DODANO LOGOWANIE BŁĘDU ---
                     console.error("BŁĄD SQL (SELECT):", err);
                     // -----------------------------
                     return res.status(500).json({ error: "Błąd pobierania filmów" });
